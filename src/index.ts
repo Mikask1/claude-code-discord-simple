@@ -336,6 +336,11 @@ client.once(Events.ClientReady, async (c) => {
   console.log('Bot is ready.');
 });
 
+// ── Health check server ──────────────────────
+
+const port = process.env['PORT'] ? parseInt(process.env['PORT']) : 3000;
+Bun.serve({ port, fetch: () => new Response('OK') });
+
 // ── Start ─────────────────────────────────────────────────────────────────────
 
 client.login(DISCORD_TOKEN);
