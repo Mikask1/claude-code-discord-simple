@@ -341,6 +341,12 @@ client.once(Events.ClientReady, async (c) => {
 const port = process.env['PORT'] ? parseInt(process.env['PORT']) : 3000;
 Bun.serve({ port, fetch: () => new Response('OK') });
 
+// Keep Render free tier alive by self-pinging every 10 minutes
+const RENDER_URL = process.env['RENDER_EXTERNAL_URL'];
+if (RENDER_URL) {
+  setInterval(() => fetch(RENDER_URL).catch(() => {}), 10 * 60 * 1000);
+}
+
 // ── Start ─────────────────────────────────────────────────────────────────────
 
 client.login(DISCORD_TOKEN);
